@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Siesta Sizzlin' - Premium hot sauces inspired by Siesta Key Beach, Florida's #1 beach.">
+    <title>Siesta Sizzlin' - Premium Hot Sauce from Paradise</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #ff6b35;
+            --primary-yellow: #f7b731;
+            --primary-teal: #00b8a9;
+            --dark-teal: #006a62;
+            --sand: #f5e6d3;
+            --sunset-pink: #ff6b9d;
+            --sunset-purple: #c44569;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --success: #27ae60;
+            --error: #e74c3c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--sand);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7b731 50%, #ff6b9d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+        }
+
+        .loading-logo {
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-orange);
+        }
+
+        .logo-emoji {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-orange);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary-orange);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,184,169,0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .sunset-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 107, 53, 0.3) 0%,
+                rgba(247, 183, 49, 0.4) 30%,
+                rgba(255, 107, 157, 0.3) 60%,
+                rgba(196, 69, 105, 0.4) 100%
+            );
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--primary-orange), var(--sunset-pink));
+            color: white;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,107,53,0.3);
+        }
+
+        .cta-secondary {
+            background: rgba(255,255,255,0.9);
+            color: var(--text-dark);
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Features Bar */
+        .features-bar {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature h3 {
+            color: var(--dark-teal);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 4rem 0;
+            background: linear-gradient(to bottom, #f5e6d3, #fef9f5);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--dark-teal);
+            margin-bottom: 1rem;
+        }
+
+        .products-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-orange);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff6b35, #f7b731);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-emoji {
+            font-size: 6rem;
+        }
+
+        .product-info {
+            padding: 2rem;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            color: var(--dark-teal);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .heat-level {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .heat-level span {
+            font-size: 1.2rem;
+            filter: grayscale(1) opacity(0.3);
+        }
+
+        .heat-level span.active {
+            filter: grayscale(0) opacity(1);
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            color: var(--primary-orange);
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, var(--primary-orange), var(--sunset-pink));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,107,53,0.3);
+        }
+
+        /* Shopping Cart */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: var(--dark-teal);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff6b35, #f7b731);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--dark-teal);
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary-orange);
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary-orange);
+            color: white;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 2px solid #eee;
+            background: #f9f9f9;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--dark-teal);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(39,174,96,0.3);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #f5f5f5;
+            z-index: 5000;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .admin-panel.open {
+            left: 0;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, var(--dark-teal), var(--primary-teal));
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-nav {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-nav-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-dark);
+            border-radius: 10px;
+        }
+
+        .admin-nav-btn.active {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        .admin-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .admin-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .admin-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: var(--dark-teal);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0 0.25rem;
+        }
+
+        .edit-btn {
+            background: var(--primary-yellow);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--error);
+            color: white;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,184,169,0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 6000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 7000;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideInRight 0.3s ease;
+            min-width: 300px;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-teal);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .cart-sidebar { width: 100%; right: -100%; }
+            .modal-content { width: 95%; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">🌶️ Siesta Sizzlin'</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <span class="logo-emoji">🌶️</span>
+                    Siesta Sizzlin'
+                </a>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="admin-btn" onclick="openAdmin()">Admin</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <img src="" alt="Hero" class="hero-bg-image" id="heroBgImage">
+            <div class="sunset-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 id="heroTitle">Where Paradise Meets Heat</h1>
+            <p class="hero-tagline" id="heroTagline">Premium hot sauces inspired by America's #1 Beach</p>
+            <div class="hero-cta">
+                <a href="#products" class="cta-btn cta-primary">Shop Now</a>
+                <a href="#about" class="cta-btn cta-secondary">Our Story</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bar -->
+    <div class="features-bar">
+        <div class="features-container" id="featuresContainer">
+            <!-- Features will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-header">
+            <h2 class="section-title">Our Hot Sauce Collection</h2>
+            <p>Experience the perfect blend of tropical paradise and fiery passion</p>
+        </div>
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="padding: 4rem 0; background: white;">
+        <div class="section-header">
+            <h2 class="section-title">Our Story</h2>
+            <p id="aboutSubtitle">Born from the sun-soaked sands of America's #1 beach</p>
+        </div>
+        <div style="max-width: 800px; margin: 0 auto; padding: 0 2rem; text-align: center;">
+            <p id="aboutText" style="font-size: 1.1rem; line-height: 1.8; color: #666;">
+                Siesta Sizzlin' was born from a simple idea: capture the essence of Siesta Key Beach in a bottle. 
+                Our founder, a longtime resident of this paradise, wanted to share the vibrant flavors and laid-back 
+                lifestyle of our beautiful beach town with the world. Every bottle is crafted with locally-sourced 
+                ingredients when possible, and infused with the spirit of our crystal-clear waters and powder-white sand.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding: 4rem 0; background: linear-gradient(to bottom, #f5e6d3, #fef9f5);">
+        <div class="section-header">
+            <h2 class="section-title">Get in Touch</h2>
+        </div>
+        <div style="max-width: 600px; margin: 0 auto; padding: 0 2rem; text-align: center;">
+            <div style="display: grid; gap: 2rem;">
+                <div>
+                    <h3 style="color: var(--dark-teal);">📍 Visit Us</h3>
+                    <p id="contactAddress">123 Beach Road, Siesta Key, FL 34242</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--dark-teal);">📞 Call Us</h3>
+                    <p id="contactPhone">+1 (941) 555-0123</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--dark-teal);">✉️ Email Us</h3>
+                    <p id="contactEmail">hello@siestasizzlin.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Shopping Cart</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p style="text-align: center; color: #666;">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <button class="close-cart" onclick="closeAdmin()">×</button>
+        </div>
+        <nav class="admin-nav">
+            <button class="admin-nav-btn active" onclick="switchTab('site-settings', this)">Site Settings</button>
+            <button class="admin-nav-btn" onclick="switchTab('products', this)">Products</button>
+            <button class="admin-nav-btn" onclick="switchTab('features', this)">Features</button>
+        </nav>
+        
+        <div class="admin-content">
+            <!-- Site Settings -->
+            <div class="admin-section active" id="site-settings">
+                <h3>Site Settings</h3>
+                
+                <div class="form-group">
+                    <label>Hero Background Image</label>
+                    <input type="file" accept="image/*" onchange="updateHeroImage(event)">
+                    <small>Upload a background image for the hero section</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Hero Title</label>
+                    <input type="text" id="adminHeroTitle" value="Where Paradise Meets Heat" onchange="updateSiteContent()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Hero Tagline</label>
+                    <input type="text" id="adminHeroTagline" value="Premium hot sauces inspired by America's #1 Beach" onchange="updateSiteContent()">
+                </div>
+                
+                <div class="form-group">
+                    <label>About Text</label>
+                    <textarea id="adminAboutText" rows="4" onchange="updateSiteContent()">Siesta Sizzlin' was born from a simple idea: capture the essence of Siesta Key Beach in a bottle. Our founder, a longtime resident of this paradise, wanted to share the vibrant flavors and laid-back lifestyle of our beautiful beach town with the world. Every bottle is crafted with locally-sourced ingredients when possible, and infused with the spirit of our crystal-clear waters and powder-white sand.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Contact Address</label>
+                    <input type="text" id="adminAddress" value="123 Beach Road, Siesta Key, FL 34242" onchange="updateSiteContent()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Contact Phone</label>
+                    <input type="text" id="adminPhone" value="+1 (941) 555-0123" onchange="updateSiteContent()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Contact Email</label>
+                    <input type="email" id="adminEmail" value="hello@siestasizzlin.com" onchange="updateSiteContent()">
+                </div>
+                
+                <button class="submit-btn" onclick="saveSettings()">Save Settings</button>
+                <button class="action-btn delete-btn" style="margin-left: 1rem;" onclick="resetAllData()">Reset All Data</button>
+            </div>
+
+            <!-- Products Management -->
+            <div class="admin-section" id="products">
+                <h3>Product Management</h3>
+                <button class="submit-btn" onclick="showAddProductModal()">Add New Product</button>
+                
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTable">
+                            <!-- Products will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Features Management -->
+            <div class="admin-section" id="features">
+                <h3>Features Management</h3>
+                <button class="submit-btn" onclick="addFeature()">Add Feature</button>
+                
+                <div id="featuresAdmin" style="margin-top: 2rem;">
+                    <!-- Features will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h3 id="modalTitle">Add Product</h3>
+            <form onsubmit="saveProduct(event)">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input type="number" id="productStock" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Heat Level (1-5)</label>
+                    <input type="number" id="productHeat" min="1" max="5" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Badge (optional)</label>
+                    <input type="text" id="productBadge" placeholder="e.g., Best Seller, New, Hot">
+                </div>
+                
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <input type="file" accept="image/*" id="productImage">
+                    <small>Or use emoji if no image</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Product Emoji (fallback)</label>
+                    <input type="text" id="productEmoji" value="🌶️" maxlength="2">
+                </div>
+                
+                <input type="hidden" id="editProductId">
+                <button type="submit" class="submit-btn">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Siesta Sizzlin'. Made with 🌶️ and ❤️ in Siesta Key, FL</p>
+    </footer>
+
+    <script>
+        // LocalStorage Database System
+        const DB = {
+            save: (key, data) => {
+                localStorage.setItem(`siesta_${key}`, JSON.stringify(data));
+            },
+            load: (key) => {
+                const data = localStorage.getItem(`siesta_${key}`);
+                return data ? JSON.parse(data) : null;
+            },
+            remove: (key) => {
+                localStorage.removeItem(`siesta_${key}`);
+            }
+        };
+
+        // Global Variables
+        let products = [];
+        let cart = [];
+        let editingProductId = null;
+        let siteSettings = {};
+        let features = [];
+
+        // Default Data
+        const defaultProducts = [
+            {
+                id: '1',
+                name: "Original Siesta Sauce",
+                description: "Our signature blend of tropical heat with habanero peppers and mango.",
+                price: 9.99,
+                heat: 3,
+                emoji: "🌶️",
+                stock: 50,
+                badge: "Best Seller",
+                image: null
+            },
+            {
+                id: '2',
+                name: "Mango Madness",
+                description: "Sweet tropical mango meets fiery habanero in this crowd favorite.",
+                price: 11.99,
+                heat: 4,
+                emoji: "🥭",
+                stock: 35,
+                badge: "Fan Favorite",
+                image: null
+            },
+            {
+                id: '3',
+                name: "Coconut Inferno",
+                description: "Creamy coconut tames the intense heat of ghost peppers.",
+                price: 13.99,
+                heat: 5,
+                emoji: "🥥",
+                stock: 25,
+                badge: "Extra Hot",
+                image: null
+            }
+        ];
+
+        const defaultFeatures = [
+            { icon: "🌴", title: "Tropical Flavors", description: "Inspired by paradise" },
+            { icon: "🔥", title: "Premium Heat", description: "Carefully crafted spice" },
+            { icon: "🏆", title: "#1 Beach", description: "From America's top beach" },
+            { icon: "📦", title: "Fast Shipping", description: "Free over $50" }
+        ];
+
+        const defaultSettings = {
+            heroTitle: "Where Paradise Meets Heat",
+            heroTagline: "Premium hot sauces inspired by America's #1 Beach",
+            heroImage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b35'/%3E%3Cstop offset='50%25' style='stop-color:%23f7b731'/%3E%3Cstop offset='100%25' style='stop-color:%23ff6b9d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='800' fill='url(%23bg)'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white' font-size='48' font-weight='bold' opacity='0.3'%3ESiesta Key Beach%3C/text%3E%3C/svg%3E",
+            aboutText: "Siesta Sizzlin' was born from a simple idea: capture the essence of Siesta Key Beach in a bottle. Our founder, a longtime resident of this paradise, wanted to share the vibrant flavors and laid-back lifestyle of our beautiful beach town with the world. Every bottle is crafted with locally-sourced ingredients when possible, and infused with the spirit of our crystal-clear waters and powder-white sand.",
+            contactAddress: "123 Beach Road, Siesta Key, FL 34242",
+            contactPhone: "+1 (941) 555-0123",
+            contactEmail: "hello@siestasizzlin.com"
+        };
+
+        // Initialize
+        function init() {
+            // Load or initialize data
+            products = DB.load('products') || defaultProducts;
+            features = DB.load('features') || defaultFeatures;
+            siteSettings = DB.load('settings') || defaultSettings;
+            cart = DB.load('cart') || [];
+
+            // Apply settings
+            applySettings();
+            
+            // Render components
+            renderProducts();
+            renderFeatures();
+            updateCartUI();
+            
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 1000);
+        }
+
+        // Apply Settings to Frontend
+        function applySettings() {
+            document.getElementById('heroBgImage').src = siteSettings.heroImage || defaultSettings.heroImage;
+            document.getElementById('heroTitle').textContent = siteSettings.heroTitle;
+            document.getElementById('heroTagline').textContent = siteSettings.heroTagline;
+            document.getElementById('aboutText').textContent = siteSettings.aboutText;
+            document.getElementById('contactAddress').textContent = siteSettings.contactAddress;
+            document.getElementById('contactPhone').textContent = siteSettings.contactPhone;
+            document.getElementById('contactEmail').textContent = siteSettings.contactEmail;
+            
+            // Update admin fields
+            if (document.getElementById('adminHeroTitle')) {
+                document.getElementById('adminHeroTitle').value = siteSettings.heroTitle;
+                document.getElementById('adminHeroTagline').value = siteSettings.heroTagline;
+                document.getElementById('adminAboutText').value = siteSettings.aboutText;
+                document.getElementById('adminAddress').value = siteSettings.contactAddress;
+                document.getElementById('adminPhone').value = siteSettings.contactPhone;
+                document.getElementById('adminEmail').value = siteSettings.contactEmail;
+            }
+        }
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                    <div class="product-image">
+                        ${product.image 
+                            ? `<img src="${product.image}" alt="${product.name}">` 
+                            : `<div class="product-emoji">${product.emoji}</div>`
+                        }
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="heat-level">
+                            ${generateHeatLevel(product.heat)}
+                        </div>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-footer">
+                            <span class="product-price">$${product.price.toFixed(2)}</span>
+                            <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Features
+        function renderFeatures() {
+            const container = document.getElementById('featuresContainer');
+            container.innerHTML = features.map(feature => `
+                <div class="feature">
+                    <span class="feature-icon">${feature.icon}</span>
+                    <h3>${feature.title}</h3>
+                    <p>${feature.description}</p>
+                </div>
+            `).join('');
+        }
+
+        // Generate heat level display
+        function generateHeatLevel(level) {
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                html += `<span class="${i <= level ? 'active' : ''}">🔥</span>`;
+            }
+            return html;
+        }
+
+        // Cart Functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            DB.save('cart', cart);
+            updateCartUI();
+            showToast('success', `${product.name} added to cart!`);
+        }
+
+        function updateCartUI() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = cartCount;
+
+            const cartItemsContainer = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            ${item.image 
+                                ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">` 
+                                : item.emoji
+                            }
+                        </div>
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-name">${item.name}</h4>
+                            <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            }
+
+            DB.save('cart', cart);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('error', 'Your cart is empty!');
+                return;
+            }
+            showToast('success', 'Order placed successfully! (Demo)');
+            cart = [];
+            DB.save('cart', cart);
+            updateCartUI();
+            toggleCart();
+        }
+
+        // Admin Functions
+        function openAdmin() {
+            document.getElementById('adminPanel').classList.add('open');
+            updateProductsTable();
+            updateFeaturesAdmin();
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminPanel').classList.remove('open');
+        }
+
+        function switchTab(tab, btn) {
+            document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.admin-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+        }
+
+        // Update hero image
+        function updateHeroImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    siteSettings.heroImage = e.target.result;
+                    document.getElementById('heroBgImage').src = e.target.result;
+                    DB.save('settings', siteSettings);
+                    showToast('success', 'Hero image updated!');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Update site content
+        function updateSiteContent() {
+            siteSettings.heroTitle = document.getElementById('adminHeroTitle').value;
+            siteSettings.heroTagline = document.getElementById('adminHeroTagline').value;
+            siteSettings.aboutText = document.getElementById('adminAboutText').value;
+            siteSettings.contactAddress = document.getElementById('adminAddress').value;
+            siteSettings.contactPhone = document.getElementById('adminPhone').value;
+            siteSettings.contactEmail = document.getElementById('adminEmail').value;
+            
+            DB.save('settings', siteSettings);
+            applySettings();
+        }
+
+        // Save settings
+        function saveSettings() {
+            updateSiteContent();
+            showToast('success', 'Settings saved successfully!');
+        }
+
+        // Product Management
+        function updateProductsTable() {
+            const tbody = document.getElementById('productsTable');
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>${product.emoji} ${product.name}</td>
+                    <td>$${product.price.toFixed(2)}</td>
+                    <td>${product.stock}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editProduct('${product.id}')">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function showAddProductModal() {
+            editingProductId = null;
+            document.getElementById('modalTitle').textContent = 'Add Product';
+            document.getElementById('productName').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productStock').value = '';
+            document.getElementById('productHeat').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productBadge').value = '';
+            document.getElementById('productEmoji').value = '🌶️';
+            document.getElementById('productImage').value = '';
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            editingProductId = productId;
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productStock').value = product.stock;
+            document.getElementById('productHeat').value = product.heat;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productBadge').value = product.badge || '';
+            document.getElementById('productEmoji').value = product.emoji;
+            document.getElementById('editProductId').value = productId;
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function saveProduct(event) {
+            event.preventDefault();
+
+            const productData = {
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                heat: parseInt(document.getElementById('productHeat').value),
+                description: document.getElementById('productDescription').value,
+                badge: document.getElementById('productBadge').value,
+                emoji: document.getElementById('productEmoji').value
+            };
+
+            const imageInput = document.getElementById('productImage');
+            
+            if (imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    productData.image = e.target.result;
+                    saveProductData(productData);
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                if (editingProductId) {
+                    const existingProduct = products.find(p => p.id === editingProductId);
+                    productData.image = existingProduct.image;
+                }
+                saveProductData(productData);
+            }
+        }
+
+        function saveProductData(productData) {
+            if (editingProductId) {
+                const index = products.findIndex(p => p.id === editingProductId);
+                products[index] = { ...products[index], ...productData };
+            } else {
+                productData.id = Date.now().toString();
+                products.push(productData);
+            }
+
+            DB.save('products', products);
+            renderProducts();
+            updateProductsTable();
+            closeModal();
+            showToast('success', editingProductId ? 'Product updated!' : 'Product added!');
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Delete this product?')) {
+                products = products.filter(p => p.id !== productId);
+                DB.save('products', products);
+                renderProducts();
+                updateProductsTable();
+                showToast('success', 'Product deleted!');
+            }
+        }
+
+        // Features Management
+        function updateFeaturesAdmin() {
+            const container = document.getElementById('featuresAdmin');
+            container.innerHTML = features.map((feature, index) => `
+                <div style="padding: 1rem; background: white; margin-bottom: 1rem; border-radius: 10px;">
+                    <input type="text" value="${feature.icon}" onchange="updateFeature(${index}, 'icon', this.value)" style="width: 60px; margin-right: 1rem;">
+                    <input type="text" value="${feature.title}" onchange="updateFeature(${index}, 'title', this.value)" style="margin-right: 1rem;">
+                    <input type="text" value="${feature.description}" onchange="updateFeature(${index}, 'description', this.value)" style="flex: 1;">
+                    <button class="action-btn delete-btn" onclick="deleteFeature(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function updateFeature(index, field, value) {
+            features[index][field] = value;
+            DB.save('features', features);
+            renderFeatures();
+        }
+
+        function addFeature() {
+            features.push({ icon: "✨", title: "New Feature", description: "Description here" });
+            DB.save('features', features);
+            renderFeatures();
+            updateFeaturesAdmin();
+            showToast('success', 'Feature added!');
+        }
+
+        function deleteFeature(index) {
+            features.splice(index, 1);
+            DB.save('features', features);
+            renderFeatures();
+            updateFeaturesAdmin();
+            showToast('success', 'Feature deleted!');
+        }
+
+        // Utility Functions
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+        }
+
+        function showToast(type, message) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${type === 'success' ? '✅' : '❌'}</span>
+                <span>${message}</span>
+            `;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function resetAllData() {
+            if (confirm('Reset all data to defaults? This cannot be undone!')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
